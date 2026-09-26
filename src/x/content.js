@@ -36,6 +36,8 @@
   function tick() {
     updatePage();
     enforceFollowing();
+    trimSortMenu();
+    markShowNewPosts();
     enforceMentions();
     cleanTitle();
     cleanFavicon();
@@ -68,14 +70,43 @@
 
   // The home tablist is [おすすめ, フォロー中, ...pinned lists]. Position is the
   // only language-independent signal, so we rely on it.
+  const homeTabs = () => document.querySelectorAll('[data-testid="primaryColumn"] [role="tablist"] [role="tab"]');
+
   let lastTabSwitch = 0;
   function enforceFollowing() {
     if (!on("forceFollowing") || page !== "home") return;
-    const tabs = document.querySelectorAll('[data-testid="primaryColumn"] [role="tablist"] [role="tab"]');
+    const tabs = homeTabs();
     if (tabs.length < 2 || tabs[0].getAttribute("aria-selected") !== "true") return;
     if (Date.now() - lastTabSwitch < 1000) return;
     lastTabSwitch = Date.now();
     tabs[1].click();
+  }
+
+  // Clicking the selected フォロー中 tab opens a sort menu: [人気, 最新].
+  // page.js already forces 最新 on the request; here we drop 人気 from the menu
+  // so the UI matches. The sort menu is the two-item dropdown with only a
+  // check mark for an icon (post "…" menus have an icon on every item).
+  function trimSortMenu() {
+    if (!on("forceFollowing") || page !== "home") return;
+    if (homeTabs()[1]?.getAttribute("aria-selected") !== "true") return;
+    for (const dropdown of document.querySelectorAll('#layers [role="menu"] [data-testid="Dropdown"]')) {
+      const items = dropdown.querySelectorAll('[role="menuitem"]');
+      if (items.length !== 2 || dropdown.querySelectorAll('[role="menuitem"] svg').length > 1) continue;
+      items[0].setAttribute("data-undopa-sort-popular", "");
+    }
+  }
+
+  // ---- 「N 件のポストを表示」 ------------------------------------------------
+
+  // At the top of the home timeline X inserts a non-post cell with a button
+  // like "35 件のポストを表示". Tagged here, hidden by x.css.
+  function markShowNewPosts() {
+    if (!on("hideNewPostsPill") || page !== "home") return;
+    for (const cell of document.querySelectorAll('[data-testid="primaryColumn"] section [data-testid="cellInnerDiv"]')) {
+      const text = cell.querySelector('button, [role="button"]')?.textContent.trim() ?? "";
+      const isShowPosts = !cell.querySelector("article, h2") && /\d/.test(text) && text.length < 40;
+      cell.toggleAttribute("data-undopa-new-posts", isShowPosts);
+    }
   }
 
   // ---- notifications: mentions only -------------------------------------

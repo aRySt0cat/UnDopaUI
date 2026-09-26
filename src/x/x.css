@@ -4,36 +4,49 @@
  * X ships hashed class names; we only rely on data-testid, ARIA and hrefs.
  */
 
-/* ---- 「おすすめ」タブ ---------------------------------------------------- */
+/* ---- 「おすすめ」タブ・人気順 ---------------------------------------------- */
 
 html[data-undopa-force-following][data-undopa-page="home"]
-  [data-testid="primaryColumn"] [role="tablist"] > [role="presentation"]:first-child {
+  [data-testid="primaryColumn"] [role="tablist"] > :first-child {
   display: none !important;
 }
 
 /* Keep the "For you" timeline from flashing before we switch tabs. */
 html[data-undopa-force-following][data-undopa-page="home"]
-  [data-testid="primaryColumn"]:has([role="tablist"] > [role="presentation"]:first-child [role="tab"][aria-selected="true"])
+  [data-testid="primaryColumn"]:has([role="tablist"] > :first-child [role="tab"][aria-selected="true"])
   section[role="region"] {
   visibility: hidden !important;
 }
 
-/* ---- 数字 --------------------------------------------------------------- */
-
-html[data-undopa-hide-metrics] article [role="group"] [data-testid="app-text-transition-container"],
-html[data-undopa-hide-metrics] article a[href$="/analytics"] {
+/* 人気 in the フォロー中 sort menu. */
+html[data-undopa-force-following] [data-undopa-sort-popular] {
   display: none !important;
 }
 
-html[data-undopa-hide-metrics] a[href$="/following"] > span:first-child,
-html[data-undopa-hide-metrics] a[href$="/verified_followers"] > span:first-child,
-html[data-undopa-hide-metrics] a[href$="/followers"] > span:first-child {
+/* ---- 数字 --------------------------------------------------------------- */
+
+html[data-undopa-hide-metrics] [role="group"]
+  button:is([data-testid="reply"], [data-testid$="retweet"], [data-testid$="like"], [data-testid$="bookmark"], [data-testid$="removeBookmark"])
+  span {
+  visibility: hidden !important;
+}
+
+html[data-undopa-hide-metrics] [role="group"] > div:has(> a[href$="/analytics"]) {
   display: none !important;
+}
+
+html[data-undopa-hide-metrics] a:is([href$="/following"], [href$="/followers"], [href$="/verified_followers"]) > span:first-child {
+  display: none !important;
+}
+
+html[data-undopa-hide-metrics] a:is([href$="/following"], [href$="/followers"], [href$="/verified_followers"]) {
+  white-space: pre-line;
 }
 
 /* ---- バッジ ------------------------------------------------------------- */
 
-html[data-undopa-hide-badges] header nav a [aria-live="polite"] {
+html[data-undopa-hide-badges] header nav a div[aria-live],
+html[data-undopa-hide-badges] div[aria-labelledby="modal-header"] :is(a[href^="/notifications"], a[href="/messages"]) div[aria-live] {
   display: none !important;
 }
 
@@ -47,14 +60,22 @@ html[data-undopa-hide-sidebar] a[data-testid="AppTabBar_Explore_Link"] {
 
 /* ---- 新しいポストを表示 ---------------------------------------------------- */
 
-html[data-undopa-hide-new-posts] [role="button"]:has([data-testid="pillLabel"]) {
+/* Floating "ポストしました" pill with avatars. */
+html[data-undopa-hide-new-posts] [role="button"]:has([data-testid="pillLabel"]),
+html[data-undopa-hide-new-posts][data-undopa-page="home"] [data-testid="primaryColumn"] > div > div:first-child > div[style^="transform"] {
+  display: none !important;
+}
+
+/* "35 件のポストを表示" cell at the top of the timeline (tagged by content.js).
+   Hide the contents rather than the cell so X re-measures it as zero height. */
+html[data-undopa-hide-new-posts] [data-undopa-new-posts] > * {
   display: none !important;
 }
 
 /* ---- 通知はメンションだけ -------------------------------------------------- */
 
-html[data-undopa-mentions-only] [data-testid="primaryColumn"] [role="presentation"]:has(> a[role="tab"][href="/notifications"]),
-html[data-undopa-mentions-only] [data-testid="primaryColumn"] [role="presentation"]:has(> a[role="tab"][href="/notifications/verified"]) {
+html[data-undopa-mentions-only] [data-testid="primaryColumn"] [role="tablist"] > :has(> a[href="/notifications"]),
+html[data-undopa-mentions-only] [data-testid="primaryColumn"] [role="tablist"] > :has(> a[href="/notifications/verified"]) {
   display: none !important;
 }
 

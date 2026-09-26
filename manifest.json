@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "UnDopaUI",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "X の報酬系をハックする UI を、目的を持って使える静かな UI に変換します。",
   "permissions": ["storage"],
   "icons": {
@@ -27,6 +27,12 @@
       "js": ["src/shared/settings.js", "src/x/content.js"],
       "css": ["src/x/x.css"],
       "run_at": "document_start"
+    },
+    {
+      "matches": ["https://x.com/*", "https://twitter.com/*"],
+      "js": ["src/x/page.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
     }
   ]
 }
