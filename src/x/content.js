@@ -359,10 +359,11 @@
   if (window.navigation) window.navigation.addEventListener("currententrychange", schedule);
 
   // Dev reload: window.postMessage({ source: "undopa-dev", type: "reload" }, "*").
-  // The background worker ignores it unless the extension is loaded unpacked.
+  // The background worker ignores it unless the extension is loaded unpacked,
+  // and release packages ship without the worker at all.
   window.addEventListener("message", (e) => {
     if (e.source === window && e.data?.source === "undopa-dev" && e.data.type === "reload") {
-      chrome.runtime.sendMessage({ type: "undopa:dev-reload" });
+      chrome.runtime.sendMessage({ type: "undopa:dev-reload" }).catch(() => {});
     }
   });
 })();
