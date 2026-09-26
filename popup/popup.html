@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>UnDopaUI</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <h1>UnDopaUI</h1>
+      <label class="switch" title="すべて有効 / 無効">
+        <input type="checkbox" data-key="enabled" />
+        <span></span>
+      </label>
+    </header>
+
+    <main>
+      <h2>X</h2>
+      <ul>
+        <li>
+          <label>
+            <input type="checkbox" data-key="x.forceFollowing" />
+            <span class="name">「おすすめ」を隠し「フォロー中」に固定</span>
+            <span class="why">アルゴリズムが選ぶ当たり外れのある投稿を止める</span>
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" data-key="x.feedBreaks" />
+            <span class="name">
+              <input type="number" data-key="x.feedBreakSize" min="5" max="200" step="5" /> 件ごとに一区切り
+            </span>
+            <span class="why">無限スクロールに終わりを戻す</span>
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" data-key="x.hideMetrics" />
+            <span class="name">いいね・表示回数などの数字を隠す</span>
+            <span class="why">数字ではなく中身で読む</span>
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" data-key="x.hideBadges" />
+            <span class="name">通知バッジとタブの (n) を隠す</span>
+            <span class="why">作業中に呼び戻されない</span>
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" data-key="x.mentionsOnly" />
+            <span class="name">通知はメンションだけ表示</span>
+            <span class="why">いいねの数を確かめに戻るループを断つ</span>
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" data-key="x.hideNewPostsPill" />
+            <span class="name">「新しいポストを表示」を隠す</span>
+            <span class="why">更新＝レバーを引く行為をなくす</span>
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" data-key="x.hideSidebar" />
+            <span class="name">トレンド・おすすめユーザー・「話題を検索」を隠す</span>
+            <span class="why">目的外への寄り道の入口を消す</span>
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" data-key="x.stopAutoplay" />
+            <span class="name">動画の自動再生を止める</span>
+            <span class="why">クリックしたものだけ再生</span>
+          </label>
+        </li>
+      </ul>
+    </main>
+
+    <footer>変更はすぐに反映されます</footer>
+    <script src="../src/shared/settings.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

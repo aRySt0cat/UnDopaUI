@@ -1,0 +1,70 @@
+/*
+ * UnDopaUI for X. Every rule is gated on a data-undopa-* flag that
+ * content.js sets on <html>, so each feature can be toggled live.
+ * X ships hashed class names; we only rely on data-testid, ARIA and hrefs.
+ */
+
+/* ---- 「おすすめ」タブ ---------------------------------------------------- */
+
+html[data-undopa-force-following][data-undopa-page="home"]
+  [data-testid="primaryColumn"] [role="tablist"] > [role="presentation"]:first-child {
+  display: none !important;
+}
+
+/* Keep the "For you" timeline from flashing before we switch tabs. */
+html[data-undopa-force-following][data-undopa-page="home"]
+  [data-testid="primaryColumn"]:has([role="tablist"] > [role="presentation"]:first-child [role="tab"][aria-selected="true"])
+  section[role="region"] {
+  visibility: hidden !important;
+}
+
+/* ---- 数字 --------------------------------------------------------------- */
+
+html[data-undopa-hide-metrics] article [role="group"] [data-testid="app-text-transition-container"],
+html[data-undopa-hide-metrics] article a[href$="/analytics"] {
+  display: none !important;
+}
+
+html[data-undopa-hide-metrics] a[href$="/following"] > span:first-child,
+html[data-undopa-hide-metrics] a[href$="/verified_followers"] > span:first-child,
+html[data-undopa-hide-metrics] a[href$="/followers"] > span:first-child {
+  display: none !important;
+}
+
+/* ---- バッジ ------------------------------------------------------------- */
+
+html[data-undopa-hide-badges] header nav a [aria-live="polite"] {
+  display: none !important;
+}
+
+/* ---- サイドバー・話題を検索 ------------------------------------------------ */
+
+html[data-undopa-hide-sidebar] [data-testid="sidebarColumn"] section,
+html[data-undopa-hide-sidebar] [data-testid="sidebarColumn"] aside,
+html[data-undopa-hide-sidebar] a[data-testid="AppTabBar_Explore_Link"] {
+  display: none !important;
+}
+
+/* ---- 新しいポストを表示 ---------------------------------------------------- */
+
+html[data-undopa-hide-new-posts] [role="button"]:has([data-testid="pillLabel"]) {
+  display: none !important;
+}
+
+/* ---- 通知はメンションだけ -------------------------------------------------- */
+
+html[data-undopa-mentions-only] [data-testid="primaryColumn"] [role="presentation"]:has(> a[role="tab"][href="/notifications"]),
+html[data-undopa-mentions-only] [data-testid="primaryColumn"] [role="presentation"]:has(> a[role="tab"][href="/notifications/verified"]) {
+  display: none !important;
+}
+
+html[data-undopa-mentions-only][data-undopa-page="notifications-all"] [data-testid="primaryColumn"] section[role="region"] {
+  visibility: hidden !important;
+}
+
+/* ---- 一区切り: 今日はここまで ----------------------------------------------- */
+
+html[data-undopa-feed-breaks][data-undopa-feed-done][data-undopa-page="home"]
+  [data-testid="primaryColumn"] section[role="region"] {
+  display: none !important;
+}
